@@ -51,6 +51,7 @@ export default function App() {
   const [milliseconds, setMilliseconds] = useState(0);
   const [result, setResult] = useState<string | null>(null);
   const [nextLevel, setNextLevel] = useState<string | null>(null);
+  const [debugLogs, setDebugLogs] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,13 +90,17 @@ export default function App() {
     setIsLoading(true);
     setError(null);
     try {
+      setDebugLogs([]);
       const ageCategory = getAgeCategory(parseInt(age));
+      setDebugLogs(prev => [...prev, `年齢カテゴリー: ${ageCategory || '見つかりません'}`]);
+      
       if (!ageCategory) {
         setResult('該当する年齢カテゴリが見つかりませんでした。');
         return;
       }
 
       const timeInSeconds = parseTimeToSeconds(minutes, seconds, milliseconds);
+      setDebugLogs(prev => [...prev, `入力タイム(秒): ${timeInSeconds}`]);
 
       const matchingRecords = records
         .filter(record =>
@@ -106,7 +111,16 @@ export default function App() {
         )
         .sort((a, b) => b.タイム - a.タイム);
 
+      setDebugLogs(prev => [...prev, `見つかった記録数: ${matchingRecords.length}`]);
+      
       if (matchingRecords.length > 0) {
+        setDebugLogs(prev => [...prev, 
+          '検索条件:',
+          `- 年齢区分: ${ageCategory}`,
+          `- 性別: ${gender}`,
+          `- 種目: ${style}`,
+          `- 距離: ${distance}m`
+        ]);
         const currentLevel = matchingRecords.find(record => timeInSeconds >= record.タイム);
 
         if (currentLevel) {
@@ -239,6 +253,17 @@ export default function App() {
 
       {result && <div className="result">{result}</div>}
       {nextLevel && <div className="result next">{nextLevel}</div>}
+      
+      {debugLogs.length > 0 && (
+        <div className="debug-logs">
+          <h3>🔍 デバッグログ</h3>
+          {debugLogs.map((log, index) => (
+            <div key={index} className="debug-log-line">
+              {log}
+            </div>
+          ))}
+        </div>
+      )}
     </main>
   );
 }
