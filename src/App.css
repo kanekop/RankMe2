@@ -68,13 +68,19 @@ input[type="radio"] {
 .number-input {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+  margin: 0 auto;
+  max-width: 180px;
 }
 
 .number-input input[type="number"] {
-  width: 60px;
+  width: 70px;
+  height: 44px;
   text-align: center;
   -moz-appearance: textfield;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
 .number-input input[type="number"]::-webkit-outer-spin-button,
@@ -84,18 +90,19 @@ input[type="radio"] {
 }
 
 .number-input button {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e0e0e0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 24px;
   color: #333;
+  touch-action: manipulation;
 }
 
 .number-input button:hover {
