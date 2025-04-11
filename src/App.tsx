@@ -196,7 +196,7 @@ export default function App() {
 
   return (
     <main className="container">
-      <h1>水泳マスターズ級チェッカー</h1>
+      <h1>マスターズ級チェッカー</h1>
       <form onSubmit={handleSubmit}>
         <div className="horizontal-group">
           <div className="input-group">
