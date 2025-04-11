@@ -24,11 +24,17 @@ const getAgeCategory = (age: number): string | null => {
   return null;
 };
 
-const parseTimeToSeconds = (minutes: number, seconds: number, milliseconds: number): number => {
-  if (minutes < 0 || seconds < 0 || milliseconds < 0) return 0;
-  if (seconds >= 60) return 0;
-  if (milliseconds >= 100) return 0;
-  return minutes * 60 + seconds + milliseconds / 100;
+const parseTimeToSeconds = (inputMinutes: number, inputSeconds: number, inputMilliseconds: number): number => {
+  // Convert input time to total seconds
+  const userTimeInSeconds = inputMinutes * 60 + inputSeconds + inputMilliseconds / 100;
+  return userTimeInSeconds;
+};
+
+const parseRecordTime = (timeStr: number): number => {
+  // Convert record time (in format MM.SS.ss) to seconds
+  const timeString = timeStr.toString();
+  const [minutes, seconds, milliseconds] = timeString.split('.').map(Number);
+  return minutes * 60 + seconds + (milliseconds || 0) / 100;
 };
 
 const formatTimeDiff = (diff: number): string => {
@@ -128,7 +134,7 @@ export default function App() {
             `${record.級}級: ${record.タイム}秒 ${timeInSeconds >= record.タイム ? '✅ 達成' : '❌ 未達成'}`
           ]);
         });
-        const currentLevel = matchingRecords.find(record => timeInSeconds >= record.タイム);
+        const currentLevel = matchingRecords.find(record => timeInSeconds >= parseRecordTime(record.タイム));
 
         if (currentLevel) {
           setResult(`🎉 あなたの級は ${currentLevel.級} 級です！`);
