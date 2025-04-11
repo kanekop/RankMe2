@@ -168,12 +168,12 @@ export default function App() {
         if (highestLevel) {
           setResult(`🎉 あなたの級は ${highestLevel.級} 級です！`);
 
-          const nextLevelIndex = matchingRecords.indexOf(highestLevel) - 1;
-          if (nextLevelIndex >= 0) {
+          const nextLevelIndex = matchingRecords.indexOf(highestLevel) + 1;
+          if (nextLevelIndex < matchingRecords.length) {
             const nextLevelRecord = matchingRecords[nextLevelIndex];
             const nextLevelTime = parseTimeString(nextLevelRecord.タイム);
-            const timeDiff = formatTimeDiff(timeInSeconds - nextLevelTime);
-            setNextLevel(`💪 あと ${timeDiff} 秒で ${nextLevelRecord.級} 級に届きます！`);
+            const timeDiff = formatTimeDiff(nextLevelTime - timeInSeconds);
+            setNextLevel(`💪 あと ${timeDiff} 秒縮めると ${nextLevelRecord.級} 級に上がれます！`);
           } else {
             setNextLevel(null);
           }
