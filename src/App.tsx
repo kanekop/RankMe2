@@ -225,8 +225,20 @@ export default function App() {
                 min="18"
                 value={age}
                 onChange={(e) => {
-                  const val = parseInt(e.target.value);
-                  setAge(String(val >= 18 ? val : 18));
+                  const val = e.target.value;
+                  if (val === '') {
+                    setAge('');
+                  } else {
+                    const numVal = parseInt(val);
+                    if (!isNaN(numVal)) {
+                      setAge(String(numVal));
+                    }
+                  }
+                }}
+                onBlur={() => {
+                  if (age === '' || parseInt(age) < 18) {
+                    setAge('18');
+                  }
                 }}
                 required
               />
