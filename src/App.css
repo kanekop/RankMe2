@@ -22,6 +22,31 @@ form {
   gap: 8px;
 }
 
+.horizontal-group {
+  display: flex;
+  gap: 20px;
+}
+
+.horizontal-group .input-group {
+  flex: 1;
+}
+
+.radio-group {
+  margin: 10px 0;
+}
+
+.radio-options {
+  display: flex;
+  gap: 20px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
 label {
   font-weight: bold;
   color: #555;
@@ -32,6 +57,12 @@ input, select {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
+}
+
+input[type="radio"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
 }
 
 button {

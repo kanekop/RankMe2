@@ -202,51 +202,67 @@ export default function App() {
           <label>年齢:</label>
           <input
             type="number"
+            min="18"
             value={age}
             onChange={(e) => setAge(e.target.value)}
             required
           />
         </div>
 
-        <div className="input-group">
+        <div className="input-group radio-group">
           <label>性別:</label>
-          <select
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-            required
-          >
-            <option value="">選択してください</option>
-            <option value="男性">男性</option>
-            <option value="女性">女性</option>
-          </select>
+          <div className="radio-options">
+            <label className="radio-label">
+              <input
+                type="radio"
+                value="男性"
+                checked={gender === "男性"}
+                onChange={(e) => setGender(e.target.value)}
+                required
+              />
+              男性
+            </label>
+            <label className="radio-label">
+              <input
+                type="radio"
+                value="女性"
+                checked={gender === "女性"}
+                onChange={(e) => setGender(e.target.value)}
+                required
+              />
+              女性
+            </label>
+          </div>
         </div>
 
-        <div className="input-group">
-          <label>種目:</label>
-          <select
-            value={style}
-            onChange={handleStyleChange}
-            required
-          >
-            <option value="">選択してください</option>
-            {styles.map((s) => (
-              <option key={s} value={s}>{s}</option>
-            ))}
-          </select>
-        </div>
+        <div className="horizontal-group">
+          <div className="input-group">
+            <label>種目:</label>
+            <select
+              value={style}
+              onChange={handleStyleChange}
+              required
+            >
+              <option value="">選択してください</option>
+              {styles.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
 
-        <div className="input-group">
-          <label>距離 (m):</label>
-          <select
-            value={distance}
-            onChange={(e) => setDistance(e.target.value)}
-            required
-          >
-            <option value="">選択してください</option>
-            {distances.map((d) => (
-              <option key={d} value={String(d)}>{d}m</option>
-            ))}
-          </select>
+          <div className="input-group">
+            <label>距離 (m):</label>
+            <select
+              value={distance}
+              onChange={(e) => setDistance(e.target.value)}
+              required
+            >
+              <option value="">選択してください</option>
+              {distances.map((d) => (
+                <option key={d} value={String(d)}>{d}m</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="time-input">
