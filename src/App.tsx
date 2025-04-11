@@ -10,6 +10,19 @@ interface SwimRecord {
   級: string;
 }
 
+// 時間表記 "MM:SS.ss" または "SS.ss" を 秒(float) に変換
+const parseTimeString = (timeStr: string): number => {
+  if (timeStr.includes(':')) {
+    const [minStr, secStr] = timeStr.split(':');
+    const minutes = parseInt(minStr);
+    const seconds = parseFloat(secStr);
+    return minutes * 60 + seconds;
+  } else {
+    return parseFloat(timeStr);
+  }
+};
+
+
 const getAgeCategory = (age: number): string | null => {
   const categories = [
     "18〜24", "25〜29", "30〜34", "35〜39",
@@ -135,7 +148,7 @@ export default function App() {
           ]);
         });
         // Find the highest achieved level by looking at the last record where time is less than or equal to target
-        const achievedRecords = matchingRecords.filter(record => timeInSeconds <= parseRecordTime(record.タイム));
+        const achievedRecords = matchingRecords.filter(record => timeInSeconds <= parseTimeString(record.タイム));
         const highestLevel = achievedRecords[achievedRecords.length - 1];
 
         if (highestLevel) {
