@@ -25,6 +25,9 @@ const getAgeCategory = (age: number): string | null => {
 };
 
 const parseTimeToSeconds = (minutes: number, seconds: number, milliseconds: number): number => {
+  if (minutes < 0 || seconds < 0 || milliseconds < 0) return 0;
+  if (seconds >= 60) return 0;
+  if (milliseconds >= 100) return 0;
   return minutes * 60 + seconds + milliseconds / 100;
 };
 
@@ -34,6 +37,8 @@ const formatTimeDiff = (diff: number): string => {
 
 export default function App() {
   const [records, setRecords] = useState<SwimRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [styles, setStyles] = useState<string[]>([]);
   const [distances, setDistances] = useState<number[]>([]);
 
@@ -81,6 +86,8 @@ export default function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     try {
       const ageCategory = getAgeCategory(parseInt(age));
       if (!ageCategory) {
@@ -122,8 +129,11 @@ export default function App() {
         setNextLevel(null);
       }
     } catch (error) {
-      setResult('エラーが発生しました');
+      setError('エラーが発生しました');
+      setResult(null);
       setNextLevel(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -192,7 +202,10 @@ export default function App() {
                 min="0"
                 max="59"
                 value={minutes}
-                onChange={(e) => setMinutes(parseInt(e.target.value) || 0)}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value);
+                  setMinutes(val >= 0 && val <= 59 ? val : 0);
+                }}
                 required
               />
             </div>
