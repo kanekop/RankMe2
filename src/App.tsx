@@ -11,20 +11,24 @@ interface SwimRecord {
 }
 
 // 時間表記 "MM:SS.ss" または "SS.ss" を 秒(float) に変換
-const parseTimeString = (timeStr: string): number => {
-  // Convert to string in case number is passed
-  timeStr = timeStr.toString();
+const parseTimeString = (timeStr: string | number): number => {
+  if (typeof timeStr === 'number') {
+    return timeStr;
+  }
+  
+  const str = String(timeStr).trim();
   
   // Format MM:SS.ss (e.g. "1:23.45")
-  if (timeStr.includes(':')) {
-    const [minStr, secStr] = timeStr.split(':');
-    const minutes = parseInt(minStr);
-    const seconds = parseFloat(secStr);
+  if (str.includes(':')) {
+    const [minStr, secStr] = str.split(':');
+    if (!minStr || !secStr) return 0;
+    const minutes = parseInt(minStr, 10) || 0;
+    const seconds = parseFloat(secStr) || 0;
     return minutes * 60 + seconds;
   }
   
   // Format SS.ss (e.g. "45.67")
-  return parseFloat(timeStr);
+  return parseFloat(str) || 0;
 };
 
 
