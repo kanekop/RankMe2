@@ -224,7 +224,10 @@ export default function App() {
                 type="number"
                 min="18"
                 value={age}
-                onChange={(e) => setAge(e.target.value)}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value);
+                  setAge(String(val >= 18 ? val : 18));
+                }}
                 required
               />
               <button 
