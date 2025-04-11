@@ -50,6 +50,27 @@ button:hover {
   background-color: #0056b3;
 }
 
+.time-input {
+  background-color: #f0f2f6;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.time-input h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.time-fields {
+  display: flex;
+  gap: 1rem;
+}
+
+.time-fields .input-group {
+  flex: 1;
+}
+
 .result {
   margin-top: 20px;
   padding: 15px;
