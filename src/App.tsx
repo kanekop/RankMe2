@@ -171,7 +171,8 @@ export default function App() {
           const nextLevelIndex = matchingRecords.indexOf(highestLevel) - 1;
           if (nextLevelIndex >= 0) {
             const nextLevelRecord = matchingRecords[nextLevelIndex];
-            const timeDiff = formatTimeDiff(timeInSeconds - nextLevelRecord.タイム);
+            const nextLevelTime = parseTimeString(nextLevelRecord.タイム);
+            const timeDiff = formatTimeDiff(timeInSeconds - nextLevelTime);
             setNextLevel(`💪 あと ${timeDiff} 秒で ${nextLevelRecord.級} 級に届きます！`);
           } else {
             setNextLevel(null);
