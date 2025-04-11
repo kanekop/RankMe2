@@ -6,7 +6,7 @@ interface SwimRecord {
   性別: string;
   種目: string;
   距離: number;
-  タイム: number;
+  タイム: string;  // 秒に変換する前のオリジナル形式
   級: string;
 }
 
@@ -52,13 +52,6 @@ const parseTimeToSeconds = (inputMinutes: number, inputSeconds: number, inputMil
   return userTimeInSeconds;
 };
 
-const parseRecordTime = (timeStr: number): number => {
-  // Convert record time (in format MM.SS.ss) to seconds
-  const timeString = timeStr.toString();
-  const [minutes, seconds, milliseconds] = timeString.split('.').map(Number);
-  return minutes * 60 + seconds + (milliseconds || 0) / 100;
-};
-
 const formatTimeDiff = (diff: number): string => {
   return diff.toFixed(2);
 };
@@ -88,7 +81,7 @@ export default function App() {
 
       data = data.map(r => ({
         ...r,
-        タイム: parseFloat(r.タイム as unknown as string),
+        タイム: r.タイム,
         距離: Number(r.距離)
       }));
 
@@ -137,7 +130,7 @@ export default function App() {
           record.種目 === style &&
           record.距離 === parseInt(distance)
         )
-        .sort((a, b) => b.タイム - a.タイム);
+      .sort((a, b) => parseTimeString(b.タイム) - parseTimeString(a.タイム));
 
       setDebugLogs(prev => [...prev, `見つかった記録数: ${matchingRecords.length}`]);
       
@@ -152,12 +145,15 @@ export default function App() {
         ]);
 
         matchingRecords.forEach(record => {
+          const recordTimeSec = parseTimeString(record.タイム);
           setDebugLogs(prev => [...prev, 
-            `${record.級}級: ${record.タイム}秒 ${timeInSeconds <= record.タイム ? '✅ 達成' : '❌ 未達成'}`
+            `${record.級}級: ${record.タイム}秒 ${timeInSeconds <= recordTimeSec ? '✅ 達成' : '❌ 未達成'}`
           ]);
         });
         // Find the highest achieved level by looking at the last record where time is less than or equal to target
-        const achievedRecords = matchingRecords.filter(record => timeInSeconds <= parseTimeString(record.タイム));
+        const achievedRecords = matchingRecords.filter(
+          record => timeInSeconds <= parseTimeString(record.タイム)
+        );
         const highestLevel = achievedRecords[achievedRecords.length - 1];
 
         if (highestLevel) {
