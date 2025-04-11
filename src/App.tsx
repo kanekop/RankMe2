@@ -131,10 +131,10 @@ export default function App() {
 
         matchingRecords.forEach(record => {
           setDebugLogs(prev => [...prev, 
-            `${record.級}級: ${record.タイム}秒 ${timeInSeconds >= record.タイム ? '✅ 達成' : '❌ 未達成'}`
+            `${record.級}級: ${record.タイム}秒 ${timeInSeconds <= record.タイム ? '✅ 達成' : '❌ 未達成'}`
           ]);
         });
-        const currentLevel = matchingRecords.find(record => timeInSeconds >= parseRecordTime(record.タイム));
+        const currentLevel = matchingRecords.find(record => timeInSeconds <= parseRecordTime(record.タイム));
 
         if (currentLevel) {
           setResult(`🎉 あなたの級は ${currentLevel.級} 級です！`);
