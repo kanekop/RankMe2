@@ -72,7 +72,7 @@ export default function App() {
   const [styles, setStyles] = useState<string[]>([]);
   const [distances, setDistances] = useState<number[]>([]);
 
-  const [age, setAge] = useState('');
+  const [age, setAge] = useState('18');
   const [gender, setGender] = useState('');
   const [style, setStyle] = useState('');
   const [distance, setDistance] = useState('');
