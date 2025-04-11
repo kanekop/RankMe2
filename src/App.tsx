@@ -15,9 +15,9 @@ const parseTimeString = (timeStr: string | number): number => {
   if (typeof timeStr === 'number') {
     return timeStr;
   }
-  
+
   const str = String(timeStr).trim();
-  
+
   // Format M.SS.CC (e.g. "7.47.40")
   const parts = str.split('.');
   if (parts.length === 3) {
@@ -26,7 +26,7 @@ const parseTimeString = (timeStr: string | number): number => {
     const centiseconds = parseInt(parts[2], 10) || 0;
     return minutes * 60 + seconds + centiseconds/100;
   }
-  
+
   // Format MM:SS.ss (e.g. "1:23.45")
   if (str.includes(':')) {
     const [minStr, secStr] = str.split(':');
@@ -35,7 +35,7 @@ const parseTimeString = (timeStr: string | number): number => {
     const seconds = parseFloat(secStr) || 0;
     return minutes * 60 + seconds;
   }
-  
+
   // Format SS.ss (e.g. "45.67")
   return parseFloat(str) || 0;
 };
@@ -123,7 +123,7 @@ export default function App() {
       setDebugLogs([]);
       const ageCategory = getAgeCategory(parseInt(age));
       setDebugLogs(prev => [...prev, `年齢カテゴリー: ${ageCategory || '見つかりません'}`]);
-      
+
       if (!ageCategory) {
         setResult('該当する年齢カテゴリが見つかりませんでした。');
         return;
@@ -142,7 +142,7 @@ export default function App() {
       .sort((a, b) => parseTimeString(b.タイム) - parseTimeString(a.タイム));
 
       setDebugLogs(prev => [...prev, `見つかった記録数: ${matchingRecords.length}`]);
-      
+
       if (matchingRecords.length > 0) {
         setDebugLogs(prev => [...prev, 
           '検索条件:',
@@ -215,28 +215,29 @@ export default function App() {
           </div>
 
           <div className="input-group radio-group">
-          <label>性別:</label>
-          <div className="radio-options">
-            <label className="radio-label">
-              <input
-                type="radio"
-                value="男性"
-                checked={gender === "男性"}
-                onChange={(e) => setGender(e.target.value)}
-                required
-              />
-              男性
-            </label>
-            <label className="radio-label">
-              <input
-                type="radio"
-                value="女性"
-                checked={gender === "女性"}
-                onChange={(e) => setGender(e.target.value)}
-                required
-              />
-              女性
-            </label>
+            <label>性別:</label>
+            <div className="radio-options">
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  value="男性"
+                  checked={gender === "男性"}
+                  onChange={(e) => setGender(e.target.value)}
+                  required
+                />
+                男性
+              </label>
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  value="女性"
+                  checked={gender === "女性"}
+                  onChange={(e) => setGender(e.target.value)}
+                  required
+                />
+                女性
+              </label>
+            </div>
           </div>
         </div>
 
@@ -329,7 +330,7 @@ export default function App() {
 
       {result && <div className="result">{result}</div>}
       {nextLevel && <div className="result next">{nextLevel}</div>}
-      
+
       {debugLogs.length > 0 && (
         <div className="debug-logs">
           <h3>🔍 デバッグログ</h3>
