@@ -277,7 +277,22 @@ export default function App() {
             <div className="input-group">
               <label>分:</label>
               <div className="number-input">
-                <button type="button" onClick={() => setMinutes(Math.max(0, minutes - 1))}>-</button>
+                <button 
+  type="button" 
+  onMouseDown={(e) => {
+    const interval = setInterval(() => {
+      setMinutes(prev => Math.max(0, prev - 1));
+    }, 150);
+    const cleanup = () => {
+      clearInterval(interval);
+      window.removeEventListener('mouseup', cleanup);
+      window.removeEventListener('touchend', cleanup);
+    };
+    window.addEventListener('mouseup', cleanup);
+    window.addEventListener('touchend', cleanup);
+  }}
+  onClick={() => setMinutes(prev => Math.max(0, prev - 1))}
+>-</button>
                 <input
                   type="number"
                   min="0"
@@ -289,7 +304,22 @@ export default function App() {
                   }}
                   required
                 />
-                <button type="button" onClick={() => setMinutes(Math.min(59, minutes + 1))}>+</button>
+                <button 
+  type="button"
+  onMouseDown={(e) => {
+    const interval = setInterval(() => {
+      setMinutes(prev => Math.min(59, prev + 1));
+    }, 150);
+    const cleanup = () => {
+      clearInterval(interval);
+      window.removeEventListener('mouseup', cleanup);
+      window.removeEventListener('touchend', cleanup);
+    };
+    window.addEventListener('mouseup', cleanup);
+    window.addEventListener('touchend', cleanup);
+  }}
+  onClick={() => setMinutes(prev => Math.min(59, prev + 1))}
+>+</button>
               </div>
             </div>
             <div className="input-group">
