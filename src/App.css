@@ -65,6 +65,43 @@ input[type="radio"] {
   height: 16px;
 }
 
+.number-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.number-input input[type="number"] {
+  width: 60px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.number-input input[type="number"]::-webkit-outer-spin-button,
+.number-input input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number-input button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+}
+
+.number-input button:hover {
+  background-color: #d0d0d0;
+}
+
 button {
   padding: 12px;
   background-color: #007bff;

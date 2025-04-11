@@ -198,18 +198,23 @@ export default function App() {
     <main className="container">
       <h1>水泳マスターズ級チェッカー</h1>
       <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label>年齢:</label>
-          <input
-            type="number"
-            min="18"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            required
-          />
-        </div>
+        <div className="horizontal-group">
+          <div className="input-group">
+            <label>年齢:</label>
+            <div className="number-input">
+              <button type="button" onClick={() => setAge(String(Math.max(18, parseInt(age) - 1)))}>-</button>
+              <input
+                type="number"
+                min="18"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                required
+              />
+              <button type="button" onClick={() => setAge(String(parseInt(age) + 1))}>+</button>
+            </div>
+          </div>
 
-        <div className="input-group radio-group">
+          <div className="input-group radio-group">
           <label>性別:</label>
           <div className="radio-options">
             <label className="radio-label">
@@ -270,39 +275,51 @@ export default function App() {
           <div className="time-fields">
             <div className="input-group">
               <label>分:</label>
-              <input
-                type="number"
-                min="0"
-                max="59"
-                value={minutes}
-                onChange={(e) => {
-                  const val = parseInt(e.target.value);
-                  setMinutes(val >= 0 && val <= 59 ? val : 0);
-                }}
-                required
-              />
+              <div className="number-input">
+                <button type="button" onClick={() => setMinutes(Math.max(0, minutes - 1))}>-</button>
+                <input
+                  type="number"
+                  min="0"
+                  max="59"
+                  value={minutes}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value);
+                    setMinutes(val >= 0 && val <= 59 ? val : 0);
+                  }}
+                  required
+                />
+                <button type="button" onClick={() => setMinutes(Math.min(59, minutes + 1))}>+</button>
+              </div>
             </div>
             <div className="input-group">
               <label>秒:</label>
-              <input
-                type="number"
-                min="0"
-                max="59"
-                value={seconds}
-                onChange={(e) => setSeconds(parseInt(e.target.value) || 0)}
-                required
-              />
+              <div className="number-input">
+                <button type="button" onClick={() => setSeconds(Math.max(0, seconds - 1))}>-</button>
+                <input
+                  type="number"
+                  min="0"
+                  max="59"
+                  value={seconds}
+                  onChange={(e) => setSeconds(parseInt(e.target.value) || 0)}
+                  required
+                />
+                <button type="button" onClick={() => setSeconds(Math.min(59, seconds + 1))}>+</button>
+              </div>
             </div>
             <div className="input-group">
               <label>ミリ秒:</label>
-              <input
-                type="number"
-                min="0"
-                max="99"
-                value={milliseconds}
-                onChange={(e) => setMilliseconds(parseInt(e.target.value) || 0)}
-                required
-              />
+              <div className="number-input">
+                <button type="button" onClick={() => setMilliseconds(Math.max(0, milliseconds - 1))}>-</button>
+                <input
+                  type="number"
+                  min="0"
+                  max="99"
+                  value={milliseconds}
+                  onChange={(e) => setMilliseconds(parseInt(e.target.value) || 0)}
+                  required
+                />
+                <button type="button" onClick={() => setMilliseconds(Math.min(99, milliseconds + 1))}>+</button>
+              </div>
             </div>
           </div>
         </div>
