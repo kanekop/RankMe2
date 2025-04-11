@@ -314,16 +314,18 @@ export default function App() {
                 <button 
   type="button" 
   onMouseDown={(e) => {
-    const interval = setInterval(() => {
-      setMinutes(prev => Math.max(0, prev - 1));
-    }, 150);
-    const cleanup = () => {
-      clearInterval(interval);
-      window.removeEventListener('mouseup', cleanup);
-      window.removeEventListener('touchend', cleanup);
-    };
-    window.addEventListener('mouseup', cleanup);
-    window.addEventListener('touchend', cleanup);
+    setTimeout(() => {
+      const interval = setInterval(() => {
+        setMinutes(prev => Math.max(0, prev - 1));
+      }, 150);
+      const cleanup = () => {
+        clearInterval(interval);
+        window.removeEventListener('mouseup', cleanup);
+        window.removeEventListener('touchend', cleanup);
+      };
+      window.addEventListener('mouseup', cleanup);
+      window.addEventListener('touchend', cleanup);
+    }, 500);
   }}
   onClick={() => setMinutes(prev => Math.max(0, prev - 1))}
 >-</button>
@@ -341,16 +343,18 @@ export default function App() {
                 <button 
   type="button"
   onMouseDown={(e) => {
-    const interval = setInterval(() => {
-      setMinutes(prev => Math.min(59, prev + 1));
-    }, 150);
-    const cleanup = () => {
-      clearInterval(interval);
-      window.removeEventListener('mouseup', cleanup);
-      window.removeEventListener('touchend', cleanup);
-    };
-    window.addEventListener('mouseup', cleanup);
-    window.addEventListener('touchend', cleanup);
+    setTimeout(() => {
+      const interval = setInterval(() => {
+        setMinutes(prev => Math.min(59, prev + 1));
+      }, 150);
+      const cleanup = () => {
+        clearInterval(interval);
+        window.removeEventListener('mouseup', cleanup);
+        window.removeEventListener('touchend', cleanup);
+      };
+      window.addEventListener('mouseup', cleanup);
+      window.addEventListener('touchend', cleanup);
+    }, 500);
   }}
   onClick={() => setMinutes(prev => Math.min(59, prev + 1))}
 >+</button>
