@@ -18,6 +18,15 @@ const parseTimeString = (timeStr: string | number): number => {
   
   const str = String(timeStr).trim();
   
+  // Format M.SS.CC (e.g. "7.47.40")
+  const parts = str.split('.');
+  if (parts.length === 3) {
+    const minutes = parseInt(parts[0], 10) || 0;
+    const seconds = parseInt(parts[1], 10) || 0;
+    const centiseconds = parseInt(parts[2], 10) || 0;
+    return minutes * 60 + seconds + centiseconds/100;
+  }
+  
   // Format MM:SS.ss (e.g. "1:23.45")
   if (str.includes(':')) {
     const [minStr, secStr] = str.split(':');
