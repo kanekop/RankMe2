@@ -134,12 +134,14 @@ export default function App() {
             `${record.級}級: ${record.タイム}秒 ${timeInSeconds <= record.タイム ? '✅ 達成' : '❌ 未達成'}`
           ]);
         });
-        const currentLevel = matchingRecords.find(record => timeInSeconds <= parseRecordTime(record.タイム));
+        // Find the highest achieved level by looking at the last record where time is less than or equal to target
+        const achievedRecords = matchingRecords.filter(record => timeInSeconds <= parseRecordTime(record.タイム));
+        const highestLevel = achievedRecords[achievedRecords.length - 1];
 
-        if (currentLevel) {
-          setResult(`🎉 あなたの級は ${currentLevel.級} 級です！`);
+        if (highestLevel) {
+          setResult(`🎉 あなたの級は ${highestLevel.級} 級です！`);
 
-          const nextLevelIndex = matchingRecords.indexOf(currentLevel) - 1;
+          const nextLevelIndex = matchingRecords.indexOf(highestLevel) - 1;
           if (nextLevelIndex >= 0) {
             const nextLevelRecord = matchingRecords[nextLevelIndex];
             const timeDiff = formatTimeDiff(timeInSeconds - nextLevelRecord.タイム);
