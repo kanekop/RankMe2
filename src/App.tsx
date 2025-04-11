@@ -53,22 +53,22 @@ export default function App() {
 
       const timeInSeconds = parseTimeToSeconds(minutes, seconds, milliseconds);
       
-      const matchingRecords = records.filter(record => 
-        record.年齢 === ageCategory &&
-        record.性別 === gender &&
-        record.種目 === style &&
-        record.距離 === distance
-      );
+      const matchingRecords = records.filter(record => {
+        return record.年齢 === ageCategory &&
+               record.性別 === gender &&
+               record.種目 === style &&
+               record.距離 === distance;
+      }).sort((a, b) => b.タイム - a.タイム); // Sort in descending order
 
       if (matchingRecords.length > 0) {
-        const sortedRecords = [...matchingRecords].sort((a, b) => a.タイム - b.タイム);
-        const currentLevel = sortedRecords.find(record => timeInSeconds <= record.タイム);
+        const currentLevel = matchingRecords.find(record => timeInSeconds >= record.タイム);
         
         if (currentLevel) {
           setResult(`🎉 あなたの級は ${currentLevel.級} 級です！`);
           
-          const nextLevelRecord = sortedRecords[sortedRecords.indexOf(currentLevel) - 1];
-          if (nextLevelRecord) {
+          const nextLevelIndex = matchingRecords.indexOf(currentLevel) - 1;
+          if (nextLevelIndex >= 0) {
+            const nextLevelRecord = matchingRecords[nextLevelIndex];
             const timeDiff = formatTimeDiff(timeInSeconds - nextLevelRecord.タイム);
             setNextLevel(`💪 あと ${timeDiff} 秒で ${nextLevelRecord.級} 級に届きます！`);
           }
