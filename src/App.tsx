@@ -1,21 +1,25 @@
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 interface SwimRecord {
   年齢: string;
   性別: string;
   種目: string;
-  距離: string;
+  距離: number;
   タイム: number;
   級: string;
 }
 
 const getAgeCategory = (age: number): string | null => {
-  const categories = ["18～24", "25～29", "30～34", "35～39", "40～44", "45～49", "50～54"];
+  const categories = [
+    "18〜24", "25〜29", "30〜34", "35〜39",
+    "40〜44", "45〜49", "50〜54", "55〜59",
+    "60〜64", "65〜69", "70〜74", "75〜79",
+    "80〜84", "85〜89", "90〜"
+  ];
   for (const category of categories) {
-    const [start, end] = category.split("～").map(Number);
-    if (age >= start && age <= end) return category;
+    const [start, end] = category.replace("〜", "～").split("～").map(Number);
+    if (age >= start && (isNaN(end) || age <= end)) return category;
   }
   return null;
 };
@@ -29,6 +33,10 @@ const formatTimeDiff = (diff: number): string => {
 };
 
 export default function App() {
+  const [records, setRecords] = useState<SwimRecord[]>([]);
+  const [styles, setStyles] = useState<string[]>([]);
+  const [distances, setDistances] = useState<number[]>([]);
+
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
   const [style, setStyle] = useState('');
@@ -39,12 +47,41 @@ export default function App() {
   const [result, setResult] = useState<string | null>(null);
   const [nextLevel, setNextLevel] = useState<string | null>(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('/all_records.json');
+      let data: SwimRecord[] = await response.json();
+
+      data = data.map(r => ({
+        ...r,
+        タイム: parseFloat(r.タイム as unknown as string),
+        距離: Number(r.距離)
+      }));
+
+      setRecords(data);
+
+      const uniqueStyles = Array.from(new Set(data.map(r => r.種目)));
+      setStyles(uniqueStyles);
+    };
+    fetchData();
+  }, []);
+
+  const handleStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedStyle = e.target.value;
+    setStyle(selectedStyle);
+
+    const filteredDistances = records
+      .filter(r => r.種目 === selectedStyle)
+      .map(r => r.距離);
+
+    const uniqueDistances = Array.from(new Set(filteredDistances)).sort((a, b) => a - b);
+    setDistances(uniqueDistances);
+    setDistance('');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('/all_records.json');
-      const records: SwimRecord[] = await response.json();
-      
       const ageCategory = getAgeCategory(parseInt(age));
       if (!ageCategory) {
         setResult('該当する年齢カテゴリが見つかりませんでした。');
@@ -52,34 +89,41 @@ export default function App() {
       }
 
       const timeInSeconds = parseTimeToSeconds(minutes, seconds, milliseconds);
-      
-      const matchingRecords = records.filter(record => {
-        return record.年齢 === ageCategory &&
-               record.性別 === gender &&
-               record.種目 === style &&
-               record.距離 === distance;
-      }).sort((a, b) => b.タイム - a.タイム); // Sort in descending order
+
+      const matchingRecords = records
+        .filter(record =>
+          record.年齢 === ageCategory &&
+          record.性別 === gender &&
+          record.種目 === style &&
+          record.距離 === parseInt(distance)
+        )
+        .sort((a, b) => b.タイム - a.タイム);
 
       if (matchingRecords.length > 0) {
         const currentLevel = matchingRecords.find(record => timeInSeconds >= record.タイム);
-        
+
         if (currentLevel) {
           setResult(`🎉 あなたの級は ${currentLevel.級} 級です！`);
-          
+
           const nextLevelIndex = matchingRecords.indexOf(currentLevel) - 1;
           if (nextLevelIndex >= 0) {
             const nextLevelRecord = matchingRecords[nextLevelIndex];
             const timeDiff = formatTimeDiff(timeInSeconds - nextLevelRecord.タイム);
             setNextLevel(`💪 あと ${timeDiff} 秒で ${nextLevelRecord.級} 級に届きます！`);
+          } else {
+            setNextLevel(null);
           }
         } else {
           setResult('未達成');
+          setNextLevel(null);
         }
       } else {
         setResult('該当するカテゴリーが見つかりません');
+        setNextLevel(null);
       }
     } catch (error) {
       setResult('エラーが発生しました');
+      setNextLevel(null);
     }
   };
 
@@ -89,8 +133,8 @@ export default function App() {
       <form onSubmit={handleSubmit}>
         <div className="input-group">
           <label>年齢:</label>
-          <input 
-            type="number" 
+          <input
+            type="number"
             value={age}
             onChange={(e) => setAge(e.target.value)}
             required
@@ -99,43 +143,42 @@ export default function App() {
 
         <div className="input-group">
           <label>性別:</label>
-          <select 
+          <select
             value={gender}
             onChange={(e) => setGender(e.target.value)}
             required
           >
             <option value="">選択してください</option>
-            <option value="M">男性</option>
-            <option value="F">女性</option>
+            <option value="男性">男性</option>
+            <option value="女性">女性</option>
           </select>
         </div>
 
         <div className="input-group">
           <label>種目:</label>
-          <select 
+          <select
             value={style}
-            onChange={(e) => setStyle(e.target.value)}
+            onChange={handleStyleChange}
             required
           >
             <option value="">選択してください</option>
-            <option value="freestyle">自由形</option>
-            <option value="backstroke">背泳ぎ</option>
-            <option value="breaststroke">平泳ぎ</option>
-            <option value="butterfly">バタフライ</option>
+            {styles.map((s) => (
+              <option key={s} value={s}>{s}</option>
+            ))}
           </select>
         </div>
 
         <div className="input-group">
           <label>距離 (m):</label>
-          <select 
+          <select
             value={distance}
             onChange={(e) => setDistance(e.target.value)}
             required
           >
             <option value="">選択してください</option>
-            <option value="50">50m</option>
-            <option value="100">100m</option>
-            <option value="200">200m</option>
+            {distances.map((d) => (
+              <option key={d} value={String(d)}>{d}m</option>
+            ))}
           </select>
         </div>
 
@@ -144,7 +187,7 @@ export default function App() {
           <div className="time-fields">
             <div className="input-group">
               <label>分:</label>
-              <input 
+              <input
                 type="number"
                 min="0"
                 max="59"
@@ -155,7 +198,7 @@ export default function App() {
             </div>
             <div className="input-group">
               <label>秒:</label>
-              <input 
+              <input
                 type="number"
                 min="0"
                 max="59"
@@ -166,7 +209,7 @@ export default function App() {
             </div>
             <div className="input-group">
               <label>ミリ秒:</label>
-              <input 
+              <input
                 type="number"
                 min="0"
                 max="99"
@@ -182,6 +225,7 @@ export default function App() {
       </form>
 
       {result && <div className="result">{result}</div>}
+      {nextLevel && <div className="result next">{nextLevel}</div>}
     </main>
   );
 }
