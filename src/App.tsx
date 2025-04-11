@@ -119,8 +119,15 @@ export default function App() {
           `- 年齢区分: ${ageCategory}`,
           `- 性別: ${gender}`,
           `- 種目: ${style}`,
-          `- 距離: ${distance}m`
+          `- 距離: ${distance}m`,
+          '\n基準タイム一覧:'
         ]);
+
+        matchingRecords.forEach(record => {
+          setDebugLogs(prev => [...prev, 
+            `${record.級}級: ${record.タイム}秒 ${timeInSeconds >= record.タイム ? '✅ 達成' : '❌ 未達成'}`
+          ]);
+        });
         const currentLevel = matchingRecords.find(record => timeInSeconds >= record.タイム);
 
         if (currentLevel) {
