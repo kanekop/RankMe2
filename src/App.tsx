@@ -172,7 +172,7 @@ export default function App() {
           if (nextLevelIndex < matchingRecords.length) {
             const nextLevelRecord = matchingRecords[nextLevelIndex];
             const nextLevelTime = parseTimeString(nextLevelRecord.タイム);
-            const timeDiff = formatTimeDiff(nextLevelTime - timeInSeconds);
+            const timeDiff = formatTimeDiff(Math.abs(nextLevelTime - timeInSeconds));
             setNextLevel(`💪 あと ${timeDiff} 秒縮めると ${nextLevelRecord.級} 級に上がれます！`);
           } else {
             setNextLevel(null);
