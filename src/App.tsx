@@ -202,7 +202,24 @@ export default function App() {
           <div className="input-group">
             <label>年齢:</label>
             <div className="number-input">
-              <button type="button" onClick={() => setAge(String(Math.max(18, parseInt(age) - 1)))}>-</button>
+              <button 
+                type="button"
+                onMouseDown={(e) => {
+                  setTimeout(() => {
+                    const interval = setInterval(() => {
+                      setAge(prev => String(Math.max(18, parseInt(prev) - 1)));
+                    }, 150);
+                    const cleanup = () => {
+                      clearInterval(interval);
+                      window.removeEventListener('mouseup', cleanup);
+                      window.removeEventListener('touchend', cleanup);
+                    };
+                    window.addEventListener('mouseup', cleanup);
+                    window.addEventListener('touchend', cleanup);
+                  }, 500);
+                }}
+                onClick={() => setAge(prev => String(Math.max(18, parseInt(prev) - 1)))}
+              >-</button>
               <input
                 type="number"
                 min="18"
@@ -210,7 +227,24 @@ export default function App() {
                 onChange={(e) => setAge(e.target.value)}
                 required
               />
-              <button type="button" onClick={() => setAge(String(parseInt(age) + 1))}>+</button>
+              <button 
+                type="button"
+                onMouseDown={(e) => {
+                  setTimeout(() => {
+                    const interval = setInterval(() => {
+                      setAge(prev => String(parseInt(prev) + 1));
+                    }, 150);
+                    const cleanup = () => {
+                      clearInterval(interval);
+                      window.removeEventListener('mouseup', cleanup);
+                      window.removeEventListener('touchend', cleanup);
+                    };
+                    window.addEventListener('mouseup', cleanup);
+                    window.addEventListener('touchend', cleanup);
+                  }, 500);
+                }}
+                onClick={() => setAge(prev => String(parseInt(prev) + 1))}
+              >+</button>
             </div>
           </div>
 
@@ -325,7 +359,24 @@ export default function App() {
             <div className="input-group">
               <label>秒:</label>
               <div className="number-input">
-                <button type="button" onClick={() => setSeconds(Math.max(0, seconds - 1))}>-</button>
+                <button 
+                  type="button"
+                  onMouseDown={(e) => {
+                    setTimeout(() => {
+                      const interval = setInterval(() => {
+                        setSeconds(prev => Math.max(0, prev - 1));
+                      }, 150);
+                      const cleanup = () => {
+                        clearInterval(interval);
+                        window.removeEventListener('mouseup', cleanup);
+                        window.removeEventListener('touchend', cleanup);
+                      };
+                      window.addEventListener('mouseup', cleanup);
+                      window.addEventListener('touchend', cleanup);
+                    }, 500);
+                  }}
+                  onClick={() => setSeconds(prev => Math.max(0, prev - 1))}
+                >-</button>
                 <input
                   type="number"
                   min="0"
@@ -334,13 +385,47 @@ export default function App() {
                   onChange={(e) => setSeconds(parseInt(e.target.value) || 0)}
                   required
                 />
-                <button type="button" onClick={() => setSeconds(Math.min(59, seconds + 1))}>+</button>
+                <button 
+                  type="button"
+                  onMouseDown={(e) => {
+                    setTimeout(() => {
+                      const interval = setInterval(() => {
+                        setSeconds(prev => Math.min(59, prev + 1));
+                      }, 150);
+                      const cleanup = () => {
+                        clearInterval(interval);
+                        window.removeEventListener('mouseup', cleanup);
+                        window.removeEventListener('touchend', cleanup);
+                      };
+                      window.addEventListener('mouseup', cleanup);
+                      window.addEventListener('touchend', cleanup);
+                    }, 500);
+                  }}
+                  onClick={() => setSeconds(prev => Math.min(59, prev + 1))}
+                >+</button>
               </div>
             </div>
             <div className="input-group">
               <label>ミリ秒:</label>
               <div className="number-input">
-                <button type="button" onClick={() => setMilliseconds(Math.max(0, milliseconds - 1))}>-</button>
+                <button 
+                  type="button"
+                  onMouseDown={(e) => {
+                    setTimeout(() => {
+                      const interval = setInterval(() => {
+                        setMilliseconds(prev => Math.max(0, prev - 1));
+                      }, 150);
+                      const cleanup = () => {
+                        clearInterval(interval);
+                        window.removeEventListener('mouseup', cleanup);
+                        window.removeEventListener('touchend', cleanup);
+                      };
+                      window.addEventListener('mouseup', cleanup);
+                      window.addEventListener('touchend', cleanup);
+                    }, 500);
+                  }}
+                  onClick={() => setMilliseconds(prev => Math.max(0, prev - 1))}
+                >-</button>
                 <input
                   type="number"
                   min="0"
@@ -349,7 +434,24 @@ export default function App() {
                   onChange={(e) => setMilliseconds(parseInt(e.target.value) || 0)}
                   required
                 />
-                <button type="button" onClick={() => setMilliseconds(Math.min(99, milliseconds + 1))}>+</button>
+                <button 
+                  type="button"
+                  onMouseDown={(e) => {
+                    setTimeout(() => {
+                      const interval = setInterval(() => {
+                        setMilliseconds(prev => Math.min(99, prev + 1));
+                      }, 150);
+                      const cleanup = () => {
+                        clearInterval(interval);
+                        window.removeEventListener('mouseup', cleanup);
+                        window.removeEventListener('touchend', cleanup);
+                      };
+                      window.addEventListener('mouseup', cleanup);
+                      window.addEventListener('touchend', cleanup);
+                    }, 500);
+                  }}
+                  onClick={() => setMilliseconds(prev => Math.min(99, prev + 1))}
+                >+</button>
               </div>
             </div>
           </div>
