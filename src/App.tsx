@@ -205,18 +205,26 @@ export default function App() {
               <button 
                 type="button"
                 onMouseDown={(e) => {
-                  setTimeout(() => {
+                  let timeoutId = setTimeout(() => {
                     const interval = setInterval(() => {
                       setAge(prev => String(Math.max(18, parseInt(prev) - 1)));
                     }, 150);
                     const cleanup = () => {
                       clearInterval(interval);
+                      clearTimeout(timeoutId);
                       window.removeEventListener('mouseup', cleanup);
                       window.removeEventListener('touchend', cleanup);
                     };
                     window.addEventListener('mouseup', cleanup);
                     window.addEventListener('touchend', cleanup);
                   }, 500);
+                  const initialCleanup = () => {
+                    clearTimeout(timeoutId);
+                    window.removeEventListener('mouseup', initialCleanup);
+                    window.removeEventListener('touchend', initialCleanup);
+                  };
+                  window.addEventListener('mouseup', initialCleanup);
+                  window.addEventListener('touchend', initialCleanup);
                 }}
                 onClick={() => setAge(prev => String(Math.max(18, parseInt(prev) - 1)))}
               >-</button>
@@ -245,18 +253,26 @@ export default function App() {
               <button 
                 type="button"
                 onMouseDown={(e) => {
-                  setTimeout(() => {
+                  let timeoutId = setTimeout(() => {
                     const interval = setInterval(() => {
                       setAge(prev => String(parseInt(prev) + 1));
                     }, 150);
                     const cleanup = () => {
                       clearInterval(interval);
+                      clearTimeout(timeoutId);
                       window.removeEventListener('mouseup', cleanup);
                       window.removeEventListener('touchend', cleanup);
                     };
                     window.addEventListener('mouseup', cleanup);
                     window.addEventListener('touchend', cleanup);
                   }, 500);
+                  const initialCleanup = () => {
+                    clearTimeout(timeoutId);
+                    window.removeEventListener('mouseup', initialCleanup);
+                    window.removeEventListener('touchend', initialCleanup);
+                  };
+                  window.addEventListener('mouseup', initialCleanup);
+                  window.addEventListener('touchend', initialCleanup);
                 }}
                 onClick={() => setAge(prev => String(parseInt(prev) + 1))}
               >+</button>
@@ -329,18 +345,26 @@ export default function App() {
                 <button 
   type="button" 
   onMouseDown={(e) => {
-    setTimeout(() => {
+    let timeoutId = setTimeout(() => {
       const interval = setInterval(() => {
         setMinutes(prev => Math.max(0, prev - 1));
       }, 150);
       const cleanup = () => {
         clearInterval(interval);
+        clearTimeout(timeoutId);
         window.removeEventListener('mouseup', cleanup);
         window.removeEventListener('touchend', cleanup);
       };
       window.addEventListener('mouseup', cleanup);
       window.addEventListener('touchend', cleanup);
     }, 500);
+    const initialCleanup = () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('mouseup', initialCleanup);
+      window.removeEventListener('touchend', initialCleanup);
+    };
+    window.addEventListener('mouseup', initialCleanup);
+    window.addEventListener('touchend', initialCleanup);
   }}
   onClick={() => setMinutes(prev => Math.max(0, prev - 1))}
 >-</button>
@@ -358,18 +382,26 @@ export default function App() {
                 <button 
   type="button"
   onMouseDown={(e) => {
-    setTimeout(() => {
+    let timeoutId = setTimeout(() => {
       const interval = setInterval(() => {
         setMinutes(prev => Math.min(59, prev + 1));
       }, 150);
       const cleanup = () => {
         clearInterval(interval);
+        clearTimeout(timeoutId);
         window.removeEventListener('mouseup', cleanup);
         window.removeEventListener('touchend', cleanup);
       };
       window.addEventListener('mouseup', cleanup);
       window.addEventListener('touchend', cleanup);
     }, 500);
+    const initialCleanup = () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('mouseup', initialCleanup);
+      window.removeEventListener('touchend', initialCleanup);
+    };
+    window.addEventListener('mouseup', initialCleanup);
+    window.addEventListener('touchend', initialCleanup);
   }}
   onClick={() => setMinutes(prev => Math.min(59, prev + 1))}
 >+</button>
@@ -381,18 +413,26 @@ export default function App() {
                 <button 
                   type="button"
                   onMouseDown={(e) => {
-                    setTimeout(() => {
+                    let timeoutId = setTimeout(() => {
                       const interval = setInterval(() => {
                         setSeconds(prev => Math.max(0, prev - 1));
                       }, 150);
                       const cleanup = () => {
                         clearInterval(interval);
+                        clearTimeout(timeoutId);
                         window.removeEventListener('mouseup', cleanup);
                         window.removeEventListener('touchend', cleanup);
                       };
                       window.addEventListener('mouseup', cleanup);
                       window.addEventListener('touchend', cleanup);
                     }, 500);
+                    const initialCleanup = () => {
+                      clearTimeout(timeoutId);
+                      window.removeEventListener('mouseup', initialCleanup);
+                      window.removeEventListener('touchend', initialCleanup);
+                    };
+                    window.addEventListener('mouseup', initialCleanup);
+                    window.addEventListener('touchend', initialCleanup);
                   }}
                   onClick={() => setSeconds(prev => Math.max(0, prev - 1))}
                 >-</button>
@@ -407,18 +447,26 @@ export default function App() {
                 <button 
                   type="button"
                   onMouseDown={(e) => {
-                    setTimeout(() => {
+                    let timeoutId = setTimeout(() => {
                       const interval = setInterval(() => {
                         setSeconds(prev => Math.min(59, prev + 1));
                       }, 150);
                       const cleanup = () => {
                         clearInterval(interval);
+                        clearTimeout(timeoutId);
                         window.removeEventListener('mouseup', cleanup);
                         window.removeEventListener('touchend', cleanup);
                       };
                       window.addEventListener('mouseup', cleanup);
                       window.addEventListener('touchend', cleanup);
                     }, 500);
+                    const initialCleanup = () => {
+                      clearTimeout(timeoutId);
+                      window.removeEventListener('mouseup', initialCleanup);
+                      window.removeEventListener('touchend', initialCleanup);
+                    };
+                    window.addEventListener('mouseup', initialCleanup);
+                    window.addEventListener('touchend', initialCleanup);
                   }}
                   onClick={() => setSeconds(prev => Math.min(59, prev + 1))}
                 >+</button>
@@ -430,18 +478,26 @@ export default function App() {
                 <button 
                   type="button"
                   onMouseDown={(e) => {
-                    setTimeout(() => {
+                    let timeoutId = setTimeout(() => {
                       const interval = setInterval(() => {
                         setMilliseconds(prev => Math.max(0, prev - 1));
                       }, 150);
                       const cleanup = () => {
                         clearInterval(interval);
+                        clearTimeout(timeoutId);
                         window.removeEventListener('mouseup', cleanup);
                         window.removeEventListener('touchend', cleanup);
                       };
                       window.addEventListener('mouseup', cleanup);
                       window.addEventListener('touchend', cleanup);
                     }, 500);
+                    const initialCleanup = () => {
+                      clearTimeout(timeoutId);
+                      window.removeEventListener('mouseup', initialCleanup);
+                      window.removeEventListener('touchend', initialCleanup);
+                    };
+                    window.addEventListener('mouseup', initialCleanup);
+                    window.addEventListener('touchend', initialCleanup);
                   }}
                   onClick={() => setMilliseconds(prev => Math.max(0, prev - 1))}
                 >-</button>
@@ -456,18 +512,26 @@ export default function App() {
                 <button 
                   type="button"
                   onMouseDown={(e) => {
-                    setTimeout(() => {
+                    let timeoutId = setTimeout(() => {
                       const interval = setInterval(() => {
                         setMilliseconds(prev => Math.min(99, prev + 1));
                       }, 150);
                       const cleanup = () => {
                         clearInterval(interval);
+                        clearTimeout(timeoutId);
                         window.removeEventListener('mouseup', cleanup);
                         window.removeEventListener('touchend', cleanup);
                       };
                       window.addEventListener('mouseup', cleanup);
                       window.addEventListener('touchend', cleanup);
                     }, 500);
+                    const initialCleanup = () => {
+                      clearTimeout(timeoutId);
+                      window.removeEventListener('mouseup', initialCleanup);
+                      window.removeEventListener('touchend', initialCleanup);
+                    };
+                    window.addEventListener('mouseup', initialCleanup);
+                    window.addEventListener('touchend', initialCleanup);
                   }}
                   onClick={() => setMilliseconds(prev => Math.min(99, prev + 1))}
                 >+</button>
